@@ -22,7 +22,7 @@ Wickham H. & Gorlemund, G. (2017). R for Data Science. Verfügbar unter: https:/
 
 Luhmann, M. (2020). R für Einsteiger. Beltz
 
-Gehrau, V., Maubach, K. & R für Einsteiger und Umsteiger. Springer
+Gehrau, V., Maubach, K. & Fujarski, S. (2022). R für Einsteiger und Umsteiger. Springer
 
 RStudio Education (Cheat Sheets, Tutorials und Bücher): https://education.rstudio.com/learn/beginner/
 
