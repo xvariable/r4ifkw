@@ -55,12 +55,12 @@
 install.packages("psych") # Nachteil dieser Variante:
                           # Installation wird immer wieder ausgeführt,
                           # wenn man das hard-coded und das Skript einfach 
-                          # neu durchlaufen lässt-
+                          # neu durchlaufen lässt.
 
 # Pakete laden
 library(psych)
 
-# Die Funktion p_load() aus dem Paket Packman installiert Pakete nur, sofern 
+# Die Funktion p_load() aus dem Paket packman installiert Pakete nur, sofern 
 # sie noch nicht installiert wurden und läd sie anschließend.
 pacman::p_load(beepr,    # für Soundsignale
                psych,    # für deskriptive Statistiken
@@ -151,6 +151,8 @@ my_var <- c(1, 2, 3, NA, 7, 9, 9999)
 
 # Berechnung des Mittelwerts
 mean(my_var, trim = 0.1, na.rm = TRUE)
+mean(my_var, TRUE, 0.1)
+
 
 # Mean immer mit SD berichten!
 sd(my_var, na.rm = TRUE)
