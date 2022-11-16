@@ -16,7 +16,7 @@ R-Bloggers: https://www.r-bloggers.com/
 
 # Nützliche Weiterführende R-Literatur
 
-Niemann-Lenz, J. (2021). R-Kompendium. Verfügbar unter: https:://r.lenzzz.de
+Niemann-Lenz, J. (2021). R-Kompendium. Verfügbar unter: https:://r.lenzzz.de/
 
 Wickham H. & Gorlemund, G. (2017). R for Data Science. Verfügbar unter: https://r4ds.had.co.nz/ (Es dgibt auch eine deutsche Print-Version)
 
