@@ -1,7 +1,7 @@
 # #########################################################################
 
 # R für SPSS-Umsteiger
-# Weiterbildung für das IfKW der LMU im WS 2022
+# Weiterbildung für das IfKW der LMU im WS 2022/23
 # Julia Niemann-Lenz
 # Skript zur zweiten Sitzung, 2022-11-09
 
@@ -28,9 +28,6 @@
 # https://posit.co/wp-content/uploads/2022/10/data-visualization-1.pdf
 
 # R-Graph-Gallery mit Grafiken und Code-Beispielen
-# https://r-graph-gallery.com/
-
-
 
 # #########################################################################
 
@@ -436,4 +433,4 @@ my_plot
 ggsave(plot = my_plot, 
        width = 6, height = 4, unit = "cm", 
        dpi = 300, 
-       filename = "my_plot.png")
+       filename = "date/my_plot.png")
