@@ -317,7 +317,7 @@ vec1 * vec2
 
 # Excel-Dateien -----------------------------------------------------------
 # Für Excel-Daten braucht man nochmal ein spezielles Paket z.B. readxl (ist tidy)
-df_ex <- read_excel("data/gen_z_small.xlsx", sheet = "Tabelle1")
+df_ex <- read_excel("data/gen_z_small.xlsx", sheet = "Tabelle1", na = "NA")
 
 df_ex
 
@@ -331,15 +331,13 @@ scale_pol_int<- c("Überhaupt nicht" = 1,
                   "Weiß nicht" = 99)
 
 
-df_ex$politisches_interesse_2 <- # Labels zuweisen
-                                 set_labels(df_ex$politisches_interesse, 
-                                            labels = scale_pol_int) %>% 
-                                 # Werte durch Label ersetzen und 
-                                 # in factor umwandeln
-                                 as_label()
+df_ex$politisches_interesse_2 <- as_numeric(df_ex$politisches_interesse) %>% # Variable muss numerisch sein
+                                 set_labels(labels = scale_pol_int) %>% # Labels zuweisen
+
+mean(df_ex$politisches_interesse_2, na.rm = TRUE)
 
 df_ex %>% 
-  count(politisches_interesse_2)
+  frq(politisches_interesse_2)
 
 # Unterschiede z.B. in Plots:
 ggplot(df_ex) +
