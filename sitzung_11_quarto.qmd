@@ -1,0 +1,221 @@
+---
+title: "IfkW-Quarto"
+author: "Julia Niemann-Lenz"
+format: 
+   html:
+     theme: Cerulean
+lang: de
+bibliography: references.bib
+csl: apa.csl
+---
+
+## Quarto
+
+Quarto ist ein in RStudio integriertes Authoring-Framework, dass es ermöglicht Code, Ergebnisse und begleitende Texte übersichtlich in einem Dokument darzustellen. Dabei sind ganz unterschiedliche Output-Formate möglich wie z.B. HTML, PDF und Word-Dateien oder ePub und Jupyter.
+
+Quarto ist nützlich für: Reproduzierbare Forschung, Ergebnisberichte, Präsentationen, Webseiten, als Lab-Logbuch, Bücher wie Dissertationen, oder wissenschaftliche Journal-Artikel...
+
+Hier gehts zur Projektwebsite: <https://quarto.org>.
+
+Und hier zur Neuauflage des R4DS-Buchs, in dem es jetzt auch ein Kapitel zu Quarto gibt: <https://r4ds.hadley.nz/quarto.html>
+
+## Basics
+
+-   Neues Quarto-File erzeugen über das Menü, Dateiendung .qmd
+
+-   Source- & visuelle Ansicht
+
+-   Drei unterschiedliche Bestandteile
+
+    -   YAML-Header oben im Dokument, abgegrenzt durch `---`
+    -   Chunks mit (R)-Code, umgeben von ```` ``` ````.
+    -   Text, formatiert mit R-Markdown
+
+-   Erst speichern, dann rendern.
+
+-   Code-Chunks ausführen.
+
+## Textformatierung
+
+Im visuellen Editor gibt es einige Formatierungsmöglichkeiten. Im Source-Mode benutzt man zu Textformatierung die Markdown Syntax: **fett**, *kursiv*, hochgestellt^2^, tiefgestellt~2~, ~~durchgestrichen~~, `Code`. Auch Formatierung durch HTML-Tags <i>funktioniert</i> dort und [sogar]{style="color:red;"} CSS.
+
+# Überschrift 1
+
+## Überschrift 2
+
+### Überschrift 3
+
+-   Unsortierte Liste
+    -   Item 1
+    -   Item 2
+        -   Item 2b
+
+1.  Sortierte Liste
+2.  mit Unterpunkten
+    i)  Unterpunkt 1
+        A.  noch weiter eingerückt
+
+Formeln innerhalb der Zeile: $E = mc^{2}$
+
+Abgesetzte Formel:
+
+$$E = mc^{2}$$ 
+
+## Code-Chunks
+
+Code Chunks werden durch ```` ``` {r} ```` eingeleitet und durch ```` ``` ```` beendet. Dazwischen steht der R-Code. Am Anfang der Chunk können durch `#| Optionen` für die Chunk festgelegt werden. Z.B. wie sie heißen soll, um sie später referenzieren zu können oder ob der Code im gerenderten Dokument sichtbar sein soll.
+
+```{r}
+#| label: setup
+#| include: FALSE
+
+pacman::p_load(tidyverse,
+               kableExtra # für Tabellen
+               )
+
+smaller <- diamonds |> 
+  filter(carat <= 2.5)
+
+```
+
+-   `eval: false` Der Code wird nicht ausgeführt und keine Ergebnisse werden produziert. Nützlich für Beispiel-Code.
+
+-   `include: false` Der Code wird ausgeführt, aber de Ergebnisse werden im gerenderten Dokument nicht ausgegeben (für Setup, laden der Daten etc.).
+
+-   `echo: false` Der Code wird im Ausgabe-Dokument nicht dargestellt, wohl aber die Ergebnisse
+
+-   `message: false` or `warning: false` Nachrichten oder Warnungen werden nicht ausgegeben.
+
+-   `results: hide` Die Ergebnisse werden nicht ausgegeben; `fig-show: hide` Plots werden nicht ausgegeben
+
+-   `error: true` Wenn der Code der Chunk einen Fehler produziert, soll dennoch mit dem rendern des Dokuments fortgefahren werden.
+
+Man kann diese Optionen (z.B. `echo: FALSE` auch global, für das ganze Dokument festsetzen. Dies geschieht dann im YAML-Header und mit ":" statt "=".
+
+Es ist natürlich auch möglich, R-Code direkt in-line auszugeben. Dazu genügt `` `r `` zu Beginn und `` ` `` am Ende. Sinnvoll ist dies, um z.B. auf einzelne Kennzahlen zu verweisen. Im Datensatz sind bspw. n = `r nrow(smaller)` Fälle.
+
+## Bilder, Tabellen & Plots
+
+So bindet man ein Bild ein:
+
+![R-Logo](https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/R_logo.svg/724px-R_logo.svg.png){#fig-rlogo height="120px" fig-align="left"}
+
+In den eckigen Klammern steht dabei die Beschriftung des bildes, in den runden Klammern der Pfad zum Bild (oder ein Link) und in den geschweiften Klammern Optionen für die Formatierung.
+
+Auf das Bild kann man durch \@fig-label auch referenzieren, @fig-rlogo zeigt das Logo von R. Dabei ist es wichtig, dass in den Optionen mit \# ein Label vergeben wird, dass mit "fig-" beginnt. Sonst wird die Abbildung nicht in die Zählung aufgenommen.
+
+Es gibt unterschiedliche Arten, Tabellen zu erzeugen, z.B. indem man selbst manuell die Tabellen-Syntax eingibt:
+
+| Default | Left | Right | Center |
+|---------|:-----|------:|:------:|
+| 12      | 12   |    12 |   12   |
+| 123     | 123  |   123 |  123   |
+| 1       | 1    |     1 |   1    |
+
+: Das ist die Überschrift der Tabelle {#tbl-mytab}
+
+Das ist natürlich nicht sehr komfortabel. Für größere Tabellen gibt es Editoren, z.B. hier: <https://tablesgenerator.com/markdown_tables>.
+
+Natürlich generiert Quarto auch die Tabellen direkt aus dem Code:
+
+```{r}
+#| label: tbl-diamonds-data
+#| tbl-cap: Das ist die Tabellenbeschriftung
+
+head(diamonds) %>% 
+  kable() 
+```
+
+Und da kann man jetzt auch noch alles formatieren:
+
+```{r}
+#| label: tbl-diamonds-data2
+#| tbl-cap: Das ist die Tabellenbeschriftung
+
+head(diamonds) %>% 
+  kable(caption = "Hier steht die Caption") %>%  
+  kable_styling(full_width = TRUE,
+              bootstrap_options = "striped")
+```
+
+Mehr zur Formatierung von Tabellen findet ihr [hier](https://cran.r-project.org/web/packages/kableExtra/vignettes/awesome_table_in_html.html).
+
+Damit man eine Tabelle referenzieren kann, muss man in den Optionen der Chunk das Präfix "tbl-" angeben. Hier ein Verweis auf @tbl-diamonds-data.
+
+Genauso wie Tabellen, kann man natürlich auch Plots einbauen:
+
+```{r}
+#| label: some_plot
+#| fig-alt: "Hier können noch mehr Optionen eingestellt werden, wie z.B. ein Alt-Text"
+#| fig-cap: "Ein schöner Plot!"
+
+diamonds %>% 
+  ggplot(aes(carat, price)) +
+  geom_point(aes(color = color))
+```
+
+## Fußnoten & Zitationen
+
+Eine Fußnote erzeugt man über [^1]. Es muss dabei keine Zahl in den eckigen Klammern stehen [^2].
+
+[^1]: Das ist die erste Fußnote.
+
+[^2]: Nummeriert wird automatisch.
+
+Zum Zitieren müssen die Quellen in einer Bibtex-Datei gespeichert sein, die optimalerweise im Projektordner abgelegt wurde. Diese .bib-Datei wird im YAML eingebunden. Danach kann man die dort verzeichneten Quellen referenzieren [vgl. @lantz_machine_2019, S. 13; @wickham_2023]. Das geht natürlich auch im Text, siehe Wickham [-@wickham_2023].
+
+Der Zitations-Stil wird über die "Citation Style Language" gesteuert. Im YAML-Header muss ein .csl-File eingebunden werden, dass den entsprechenden Stil enthält. Das File legt ihr am besten auch im Projektordner ab. Ihr findet die Stile auf [github](https://github.com/citation-style-language/styles).
+
+Das Literaturverzeichnis mit der zitierten Literatur wird automatisch am Ende des Dokuments erzeugt. Man kann aber auch über den folgenden Block festlegen, an welcher Stelle es erzeugt werden soll.
+
+### Literaturverzeichnis
+::: {#refs}
+
+:::
+
+## Einige Spezialoutputs
+
+Flowcharts mit mermaid:
+
+```{mermaid}
+flowchart LR
+  A[Hard edge] --> B(Round edge)
+  B --> C{Decision}
+  C --> D[Result one]
+  C --> E[Result two]
+```
+
+"Fenced Div blocks" (Pandoc-Divs) können benutzt werden, um Spezialformatierungen zu erzeugen, z.B. mit CSS.
+
+::: {style="font-size:100px;"}
+Wirklich großer Text!
+:::
+
+Es gibt auch bereits vorformatierte fenced-Div-Blocks für Hinweise, Warnungen etc.:
+
+::: callout-tip
+Es gibt verschiedene Callout-Blocks, nämlich: `note`, `warning`, `important`, `tip` und `caution`.
+:::
+
+Panel-Tabsets
+
+::: panel-tabset
+## Code
+
+```{r}
+#| eval: false
+head(diamonds)
+```
+
+## Output
+
+```{r}
+#| echo: false
+head(diamonds)
+```
+
+## Text
+
+Blabliblubb
+
+:::
